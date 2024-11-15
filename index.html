@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A simple Bootstrap demo with a carousel and cards layout.">
+    <title>Abdul Rehman Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<style>
+
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Arial', sans-serif;
+        }
+
+
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-20px);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+body {
+  animation: bounce 4s ease-in-out infinite; /* Faster bounce, tighter timing */
+}
+
+/* Add a simple animation to a scrolling section */
+section {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+section.visible {
+  opacity: 1;
+}
+
+#nav {
+    background: lightseagreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    height: 60px;
+    animation: fadeIn 3s ease-in-out;
+}
+
+#nav a {
+    color: whitesmoke;
+    text-decoration: none;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+    transition: color 0.7s ease, transform 0.3s ease, text-shadow 0.3s ease, letter-spacing 0.3s ease;
+}
+
+#nav a:nth-child(1) { animation-delay: 0.2s; }
+#nav a:nth-child(2) { animation-delay: 0.4s; }
+#nav a:nth-child(3) { animation-delay: 0.6s; }
+
+#nav a:hover {
+    color: greenyellow;
+    transform: scale(1.2) rotate(5deg);
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+    letter-spacing: 3px;
+}
+
+/* Main Content */
+#main {
+    margin-top: 20px;
+    animation: fadeInSlide 1s forwards;
+}
+
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards */
+.card {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+    perspective: 1000px;
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card:hover {
+    transform: translateY(-10px) rotate(3deg);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+}
+
+.card:nth-child(odd) {
+    animation: fadeInUp 0.5s forwards;
+    animation-delay: 0.2s; /* Delay for odd cards */
+}
+
+.card:nth-child(even) {
+    animation: fadeInUp 0.5s forwards;
+    animation-delay: 0.4s; /* Delay for even cards */
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Card Flip Effect */
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d; /* Enable 3D effect */
+}
+
+.card:hover .card-inner {
+    transform: rotateY(180deg); /* Flip effect */
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hide the back when facing away */
+}
+
+.card-back {
+    transform: rotateY(180deg); /* Position the back face */
+}
+
+/* Carousel */
+.carousel-item {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* Carousel Controls */
+.carousel-control-prev,
+.carousel-control-next {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    transform: scale(1.2);
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Footer */
+footer {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: 1.5s; /* Delay for footer appearance */
+    transform: translateY(20px);
+}
+
+/* Button Hover Effects */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    background-color: rgba(0, 123, 255, 0.8);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: width 0.5s ease, height 0.5s ease, top 0.5s ease, left 0.5s ease;
+    border-radius: 50%;
+    z-index: 0;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.btn:hover::after {
+    width: 400%;
+    height: 400%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Keyframes for FadeIn and SlideIn */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 5; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+/* Footer */
+footer {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: 1.5s; /* Delay for footer appearance */
+    transform: translateY(20px);
+}
+
+/* Hover effects for buttons */
+.btn {
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    background-color: rgba(0, 123, 255, 0.8);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Additional effects on page load */
+.card:nth-child(odd) {
+    animation: fadeInUp 0.5s forwards;
+    animation-delay: 0.2s; /* Delay for odd cards */
+}
+
+.card:nth-child(even) {
+    animation: fadeInUp 0.5s forwards;
+    animation-delay: 0.4s; /* Delay for even cards */
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Button sliding effect */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: width 0.5s ease, height 0.5s ease, top 0.5s ease, left 0.5s ease;
+    border-radius: 50%;
+    z-index: 0;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.btn:hover::after {
+    width: 400%;
+    height: 400%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Card flip effect */
+.card {
+    perspective: 1000px; /* Add perspective */
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d; /* Enable 3D effect */
+}
+
+.card:hover .card-inner {
+    transform: rotateY(180deg); /* Flip effect */
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hide the back when facing away */
+}
+
+.card-back {
+    transform: rotateY(180deg); /* Position the back face */
+}
+
+/* Footer fading */
+footer {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: 1.5s;
+}
+/* Initial Fade-in Animation */
+.card-text {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Hover Effects */
+.card-text:hover {
+    color: #1e90ff; /* Light blue color on hover */
+    transform: scale(1.05); /* Slightly scale up on hover */
+    transition: color 0.3s ease, transform 0.3s ease; /* Smooth color and scale transition */
+}
+
+/* Keyframes for Fade-in effect */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+      @media (max-width: 768px) {
+            #searchBar {
+                width: 50%;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            #searchBar {
+                width: 30%;
+            }
+        }
+
+@media (max-width: 344px) {
+    #searchBar {
+        width: 100%;
+    }
+
+      }
+
+       /* Media query for screens with width <= 912px */
+        @media (max-width: 912px) {
+            /* Adjust the card layout for smaller screens */
+            .container {
+                margin-top: 20px;
+            }
+
+            /* Use a 50% width for the cards (2 per row) */
+            .col-md-4 {
+                width: 50%; /* Two cards per row */
+            }
+
+            /* Ensure the cards are evenly spaced */
+            .col-md-4.col-sm-6 {
+                padding: 10px;
+            }
+        }
+
+        /* For very small screens (<= 576px) you can adjust further */
+        @media (max-width: 576px) {
+            .col-md-4 {
+                width: 100%; /* Full width for each card */
+            }
+        }
+
+          .card {
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        #id{
+
+           width: 98%;
+           margin-top: 30px;
+           height: 40px;
+           padding-left: 20px;
+
+        }
+
+         .card {
+        position: relative;
+        width: 100%; /* Ensure full width in the grid */
+        max-width: 912px; /* Fixed max width for the card */
+        margin: 0 auto; /* Center align card */
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px); /* Slight lift effect on hover */
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Price Tag Style */
+    .price-tag {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: red;
+        color: white;
+        font-size: 1rem;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    /* Media Queries */
+    @media (max-width: 1200px) {
+        .card {
+            max-width: 912px; /* Maintain 912px max width */
+        }
+    }
+    @media (max-width: 1024px) {
+        .card {
+            max-width: 1024px;
+            height:600px; /* Maintain 912px max width */
+        }
+    }
+
+    @media (max-width: 912px) {
+        .card {
+            max-width: 800px; /* Reduce width slightly on medium screens */
+            height: 680px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .card {
+            max-width: 100%;
+            height:650px ;/* Full width for tablets */
+        }
+        .price-tag {
+            font-size: 0.9rem; /* Smaller font size for price tag on mobile */
+            top: 8px;
+            left: 8px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card {
+            max-width: 100%; /* Full width on smaller devices */
+            padding: 10px;
+        }
+        .price-tag {
+            font-size: 0.85rem; /* Even smaller price font size */
+        }
+    }
+
+       @media (max-width: 412px) {
+        .card {
+            max-width: 100%; /* Full width on very small devices */
+            height: 750px;
+        }
+        .price-tag {
+            font-size: 0.8rem; /* Smaller price font size */
+            padding: 4px 8px; /* Adjust padding for smaller screens */
+        }
+    }
+
+           @media (max-width: 430px) {
+        .card {
+            max-width: 100%; /* Full width on very small devices */
+            height: 750px;
+        }
+        .price-tag {
+            font-size: 0.8rem; /* Smaller price font size */
+            padding: 4px 8px; /* Adjust padding for smaller screens */
+        }
+    }
+           @media (max-width: 360px) {
+        .card {
+            max-width: 100%; /* Full width on very small devices */
+            height: 650px;
+        }
+        .price-tag {
+            font-size: 0.8rem; /* Smaller price font size */
+            padding: 4px 8px; /* Adjust padding for smaller screens */
+        }
+    }
+           @media (max-width: 540px) {
+        .card {
+            max-width: 100%; /* Full width on very small devices */
+            height: 850px;
+        }
+        .price-tag {
+            font-size: 0.8rem; /* Smaller price font size */
+            padding: 4px 8px; /* Adjust padding for smaller screens */
+        }
+    }
+
+    #main {
+    margin-top: 20px;
+}
+
+.card-item {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card-item:hover {
+    transform: translateY(-10px);
+}
+
+.price-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+</style>
+
+</head>
+
+<body>
+       <div id="nav">
+    <a href="index.html" aria-label="Home">Home</a>
+    <a href="Contact%20us.html" aria-label="Contact Us">Contact Us</a>
+    <a href="help.html" aria-label="Help">Help</a>
+    <!-- Add the search bar here -->
+</div>
+
+
+    <div class="container mt-3">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://wowslider.com/sliders/demo-18/data1/images/hongkong1081704.jpg" class="d-block w-100" alt="View of Hong Kong">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>First slide label</h5>
+                        <p>Some representative placeholder content for the first slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://wowslider.com/sliders/demo-44/data1/images/bridge.jpg" class="d-block w-100" alt="A beautiful bridge">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Second slide label</h5>
+                        <p>Some representative placeholder content for the second slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://www.menucool.com/slider/prod/image-slider-2.jpg" class="d-block w-100" alt="Nature scenery">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Third slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+<center>
+
+            <input type="text" id="id" onkeyup="searchCards()" placeholder="Search for perfumes..." />
+
+</center>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-3">
+        <!-- Sorting Buttons -->
+        <button id="sort-low-to-high" class="btn btn-secondary">Lowest to Highest</button>
+        <button id="sort-high-to-low" class="btn btn-secondary">Highest to Lowest</button>
+    </div>
+    
+    <div id="main" class="row">
+        <!-- Zarar Card -->
+        <div class="col-md-4 col-sm-6 mb-4 card-item" data-price="120">
+            <div class="card">
+                <div class="price-tag">$120.00</div> <!-- Price Tag -->
+                <img src="https://www.junaidjamshed.com/media/catalog/product/z/a/zarar_gold_2__1_1.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:"/>
+                <div class="card-body">
+                    <h5 class="card-title">Zarar</h5>
+                    <p class="card-text">Zarar Perfume is a luxury fragrance brand known for crafting rich, elegant scents that blend traditional Arabian perfumery with modern twists.</p>
+                    <a href="#!" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Janan Card -->
+        <div class="col-md-4 col-sm-6 mb-4 card-item" data-price="85">
+            <div class="card">
+                <div class="price-tag">$85.00</div> <!-- Price Tag -->
+                <img src="https://www.junaidjamshed.com/media/catalog/product/j/a/janan_platinum_3__1_1.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:"/>
+                <div class="card-body">
+                    <h5 class="card-title">Janan</h5>
+                    <p class="card-text">Janan is a popular fragrance brand that creates luxurious perfumes, often featuring rich oriental and floral notes.</p>
+                    <a href="#!" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Khumar Card -->
+        <div class="col-md-4 col-sm-6 mb-4 card-item" data-price="150">
+            <div class="card">
+                <div class="price-tag">$150.00</div> <!-- Price Tag -->
+                <img src="https://www.junaidjamshed.com/media/catalog/product/k/h/khumaar_2_1.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:"/>
+                <div class="card-body">
+                    <h5 class="card-title">KHUMAR</h5>
+                    <p class="card-text">Khumar is a fragrance brand that is renowned for its bold and sensual scents, often drawing inspiration from traditional Arabian perfumery.</p>
+                    <a href="#!" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zarar Bleu Card -->
+        <div class="col-md-4 col-sm-6 mb-4 card-item" data-price="95">
+            <div class="card">
+                <div class="price-tag">$95.00</div> <!-- Price Tag -->
+                <img src="https://www.junaidjamshed.com/media/catalog/product/z/a/zarar_bleu_2__1.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:"/>
+                <div class="card-body">
+                    <h5 class="card-title">ZARAR BLEU</h5>
+                    <p class="card-text">Zarar Bleu is a refined fragrance from the Zarar Perfume brand, known for its fresh, invigorating, and sophisticated scent.</p>
+                    <a href="#!" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deep Black Card -->
+        <div class="col-md-4 col-sm-6 mb-4 card-item" data-price="110">
+            <div class="card">
+                <div class="price-tag">$110.00</div> <!-- Price Tag -->
+                <img src="https://www.junaidjamshed.com/media/catalog/product/d/e/deep_black_3__1.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:"/>
+                <div class="card-body">
+                    <h5 class="card-title">Deep Black</h5>
+                    <p class="card-text">Deep Black is a bold and intense fragrance, often associated with the Zarar Perfume brand or similar luxury perfume lines.</p>
+                    <a href="#!" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extreme Card -->
+        <div class="col-md-4 col-sm-6 mb-4 card-item" data-price="130">
+            <div class="card">
+                <div class="price-tag">$130.00</div> <!-- Price Tag -->
+                <img style="height: 320px;" src="https://perfumehut.com.pk/wp-content/uploads/2024/03/Extreme-.webp" class="card-img-top" alt="Nature Image 2"/>
+                <div class="card-body">
+                    <h5 class="card-title">Extreme</h5>
+                    <p class="card-text">Extreme is a bold and intense fragrance, often associated with the Zarar Perfume brand or similar luxury perfume lines. It typically combines rich.</p>
+                    <a href="#!" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Remove the container if you want to extend the Footer to full width. -->
+<div class="container my-5">
+
+  <footer class="text-white text-center text-lg-start bg-dark">
+    <!-- Grid container -->
+    <div class="container p-4">
+      <!--Grid row-->
+      <div class="row mt-4">
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+          <h5 class="text-uppercase mb-4">About company</h5>
+
+          <p>
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+            voluptatum deleniti atque corrupti.
+          </p>
+
+          <p>
+            Blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas
+            molestias.
+          </p>
+
+          <div class="mt-4">
+            <!-- Facebook -->
+            <a type="button" class="btn btn-floating btn-light btn-lg"><i class="fab fa-facebook-f"></i></a>
+            <!-- Dribbble -->
+            <a type="button" class="btn btn-floating btn-light btn-lg"><i class="fab fa-dribbble"></i></a>
+            <!-- Twitter -->
+            <a type="button" class="btn btn-floating btn-light btn-lg"><i class="fab fa-twitter"></i></a>
+            <!-- Google + -->
+            <a type="button" class="btn btn-floating btn-light btn-lg"><i class="fab fa-google-plus-g"></i></a>
+            <!-- Linkedin -->
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+          <h5 class="text-uppercase mb-4 pb-1">Search something</h5>
+
+          <div class="form-outline form-white mb-4">
+            <input placeholder="Search Here" type="text" id="formControlLg" class="form-control form-control-lg" />
+            <label class="form-label" for="formControlLg">Search</label>
+          </div>
+
+          <ul class="fa-ul" style="margin-left: 1.65em;">
+            <li class="mb-3">
+              <span class="fa-li"><i class="fas fa-home"></i></span><span class="ms-2">Warsaw, 00-967, Poland</span>
+            </li>
+            <li class="mb-3">
+              <span class="fa-li"><i class="fas fa-envelope"></i></span><span class="ms-2">contact@example.com</span>
+            </li>
+            <li class="mb-3">
+              <span class="fa-li"><i class="fas fa-phone"></i></span><span class="ms-2">+ 48 234 567 88</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+          <h5 class="text-uppercase mb-4">Opening hours</h5>
+
+          <table class="table text-center text-white">
+            <tbody class="fw-normal">
+              <tr>
+                <td>Mon - Thu:</td>
+                <td>8am - 9pm</td>
+              </tr>
+              <tr>
+                <td>Fri - Sat:</td>
+                <td>8am - 1am</td>
+              </tr>
+              <tr>
+                <td>Sunday:</td>
+                <td>9am - 10pm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2020 Copyright:
+      <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+    function searchCards() {
+        var input, filter, cards, cardTitles, i, txtValue;
+        input = document.getElementById('id');
+        filter = input.value.toLowerCase();
+        cards = document.querySelectorAll('.card');
+        cardTitles = document.querySelectorAll('.card-title');
+
+        for (i = 0; i < cards.length; i++) {
+            txtValue = cardTitles[i].textContent || cardTitles[i].innerText;
+            if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+
+    // JavaScript to handle sorting
+
+// Function to sort the cards
+function sortCards(order) {
+    const cardsContainer = document.getElementById('main');
+    const cards = Array.from(cardsContainer.getElementsByClassName('card-item'));
+
+    cards.sort((a, b) => {
+        const priceA = parseFloat(a.getAttribute('data-price'));
+        const priceB = parseFloat(b.getAttribute('data-price'));
+
+        if (order === 'asc') {
+            return priceA - priceB; // Ascending
+        } else {
+            return priceB - priceA; // Descending
+        }
+    });
+
+    // Append sorted cards back to the container
+    cards.forEach(card => {
+        cardsContainer.appendChild(card);
+    });
+}
+
+// Event listeners for the buttons
+document.getElementById('sort-low-to-high').addEventListener('click', function() {
+    sortCards('asc');
+});
+
+document.getElementById('sort-high-to-low').addEventListener('click', function() {
+    sortCards('desc');
+});
+
+
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
